@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SignUpSchema } from "../lib/types";
 
 async function getRestuarants(url: string) {
   try {
@@ -10,7 +11,7 @@ async function getRestuarants(url: string) {
   }
 }
 
-async function CreateRestuarantAccount(url: string, data: string) {
+async function CreateRestaurantAccount(url: string, data: SignUpSchema) {
   try {
     const response = await axios.post(url, data);
     return response.data;
@@ -20,4 +21,4 @@ async function CreateRestuarantAccount(url: string, data: string) {
   }
 }
 
-export { getRestuarants, CreateRestuarantAccount };
+export { getRestuarants, CreateRestaurantAccount };

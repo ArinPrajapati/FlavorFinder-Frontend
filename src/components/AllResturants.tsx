@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import Axios
 import { getRestuarants } from "../api/Apiconnet";
+import Restaurant from "../models";
 const AllResturants = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Restaurant[]>([]);
   const [error, setError] = useState(null); // Add an error state
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const AllResturants = () => {
             <p>Opening Time: {restaurant.restaurant_op_time}</p>
             <p>Closing Time: {restaurant.restaurant_cl_time}</p>
             <p>Location: {restaurant.restaurant_location}</p>
+            <p>Code :{restaurant.restaurant_code}</p>
             <img
               src={restaurant.restaurant_logo}
               alt={`${restaurant.restaurant_name} Logo`}
