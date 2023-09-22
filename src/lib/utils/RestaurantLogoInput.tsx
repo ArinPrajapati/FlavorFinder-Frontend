@@ -17,9 +17,22 @@ export default function RestaurantLogoInput({ onLogoChange }) {
   };
 
   return (
-    <div>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-      {selectedImage && <img src={selectedImage} alt="Restaurant Logo" />}
+    <div className="flex flex-row justify-between items-center w-[80%]">
+      <label htmlFor="filein" className="bg-[#3c5164] text-white p-2 rounded-md mt-10">Select Image for Logo</label>
+      <input
+        type="file"
+        id="filein"
+        className="hidden"
+        accept="image/*"
+        onChange={handleImageChange}
+      />
+      {selectedImage && (
+        <img
+          className="w-32 rounded-full h-32 absolute top-4 right-52 pro_img"
+          src={selectedImage}
+          alt="Restaurant Logo"
+        />
+      )}
     </div>
   );
 }
