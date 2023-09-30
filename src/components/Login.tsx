@@ -2,8 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginSchema, loginSchema } from "../lib/types";
+import { loginAsOwner } from "../api/Apiconnet";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [error, setError] = useState<string | undefined>();
   const {
     register,
     handleSubmit,
@@ -13,6 +16,22 @@ const Login = () => {
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      console.log(data);
+      setError("");
+      console.log(data);
+
+      const result = await loginAsOwner(
+        "http://localhost:3000/api/restaurant/login",
+        data
+      );
+      console.log(result);
+      reset();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <div className="pruple_gra flex flex-col justify-center items-center h-[41.7rem]">
@@ -20,7 +39,11 @@ const Login = () => {
         <img className="w-[60%] h-full " src="/public/pruple.jpg" alt="" />
         <div className="font-semibold flex flex-col justify-center items-center w-[40%] bg-white">
           <h1 className="mb-7">Hello, Welcome Back</h1>
-          <form action="" className="flex flex-col w-[20rem] ml-6 ">
+          <form
+            action=""
+            className="flex flex-col w-[20rem] ml-6 "
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <label htmlFor="rea" className="text-sm my-2">
               Restaurant Email
             </label>
@@ -29,10 +52,10 @@ const Login = () => {
               id="rea"
               placeholder="Restaurant Email"
               type="text"
-              {...register("restaurant_email")}
+              {...register("email")}
             />
-            {errors.restaurant_email && (
-              <p className="text-red-600 text-[0.9rem]">{`${errors.restaurant_email.message}`}</p>
+            {errors.email && (
+              <p className="text-red-600 text-[0.9rem]">{`${errors.email.message}`}</p>
             )}
             <label htmlFor="pas" className="text-sm mt-10 my-2">
               Restaurant Password
@@ -55,9 +78,12 @@ const Login = () => {
               Submit
             </button>
           </form>
-          <p className="text-[1rem] my-6">Create Account?</p>
+          <Link to="/res/signup" className="text-[1rem] my-6">
+            Create Account?
+          </Link>
         </div>
       </div>
+      <p>{error}</p>
     </div>
   );
 };

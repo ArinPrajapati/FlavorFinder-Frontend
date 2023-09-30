@@ -1,5 +1,11 @@
 import axios from "axios";
-import { SignUpSchema } from "../lib/types";
+import {
+  CreateUSer,
+  LoginSchema,
+  SignUpSchema,
+  USerLogin,
+  UserLogin,
+} from "../lib/types";
 
 async function getRestuarants(url: string) {
   try {
@@ -21,7 +27,16 @@ async function CreateRestaurantAccount(url: string, data: SignUpSchema) {
   }
 }
 
-async function loginAsOwner(url: string, data: string) {
+async function loginAsOwner(url: string, data: LoginSchema) {
+  try {
+    const response = await axios.post(url, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+async function createUser(url: string, data: CreateUSer) {
   try {
     const response = await axios.post(url, data);
     return response.data;
@@ -31,4 +46,19 @@ async function loginAsOwner(url: string, data: string) {
   }
 }
 
-export { getRestuarants, CreateRestaurantAccount, loginAsOwner };
+async function userlogin(url: string, data: UserLogin) {
+  try {
+    const response = await axios.post(url, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+export {
+  getRestuarants,
+  CreateRestaurantAccount,
+  loginAsOwner,
+  createUser,
+  userlogin,
+};
